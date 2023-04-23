@@ -1,7 +1,7 @@
 local typedefs = require "kong.db.schema.typedefs"
 
 
-local PLUGIN_NAME = "myplugin"
+local PLUGIN_NAME = "custom-xml-transform"
 
 
 local schema = {
@@ -15,24 +15,15 @@ local schema = {
         type = "record",
         fields = {
           -- a standard defined field (typedef), with some customizations
-          { request_header = typedefs.header_name {
-              required = true,
-              default = "Hello-World" } },
-          { response_header = typedefs.header_name {
-              required = true,
-              default = "Bye-World" } },
-          { ttl = { -- self defined field
-              type = "integer",
-              default = 600,
-              required = true,
-              gt = 0, }}, -- adding a constraint for the value
+          { node_name = typedefs.header_name {
+              required = false } },
+          
+          { ignore_content_type = typedefs.header_name {
+            default = false } },
         },
         entity_checks = {
           -- add some validation rules across fields
           -- the following is silly because it is always true, since they are both required
-          { at_least_one_of = { "request_header", "response_header" }, },
-          -- We specify that both header-names cannot be the same
-          { distinct = { "request_header", "response_header"} },
         },
       },
     },
