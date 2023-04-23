@@ -19,7 +19,6 @@ function xml_json_transformer:header_filter(conf)
   --ngx.header["content-encoding"] = "none"
   ngx.header["content-type"] = "application/json"
   ngx.header["content-length"] = nil
-
 end
 
 ---[[ runs in the 'access_by_lua_block'
